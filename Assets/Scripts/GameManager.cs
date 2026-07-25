@@ -1,11 +1,15 @@
+using UnityEngine.SceneManagement;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
+    public enum GameState { MENU, PLAY, PAUSED }
     public static GameManager instance { get; private set; }
-
-    [SerializeField] private int initialCountdown;
-    public static int CurrentCountdown { get; private set; }
+    public static GameState CurrentGameState = GameState.MENU;
+    
+    [SerializeField] private InputActionAsset inputAction;
+    [SerializeField] private string GameplaySceneName;
 
     void Awake()
     {
@@ -17,12 +21,17 @@ public class GameManager : MonoBehaviour
         }
 
         instance = this;
-
-        CurrentCountdown = initialCountdown;
+        DontDestroyOnLoad(gameObject);
     }
 
-    void Update()
+    void Start()
     {
-        
+        inputAction.Enable();
+    }
+
+    public void StartGame()
+    {
+        SceneManager.LoadScene(GameplaySceneName);
+        CurrentGameState = GameState.PLAY;
     }
 }
