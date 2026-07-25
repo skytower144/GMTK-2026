@@ -9,6 +9,7 @@ public class PlayerControl : MonoBehaviour
 
     [SerializeField] private string moveActionName;
     [SerializeField] private float moveSpeed;
+
     private Animator anim;
     private Rigidbody2D rb;
     private SpriteRenderer sr;

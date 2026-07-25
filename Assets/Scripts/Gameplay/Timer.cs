@@ -25,7 +25,6 @@ namespace CrosswalkGame
             runCoroutine = GameManager.instance.StartCoroutine(RunRoutine());
             IEnumerator RunRoutine()
             {
-                ElapsedTime = 0f;
                 while (ElapsedTime < MaxTime)
                 {
                     ElapsedTime += Time.deltaTime;

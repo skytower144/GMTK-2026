@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class UIController : MonoBehaviour
 {
+    public static UIController Control => GameManager.instance.UIControl;
+
     [SerializeField] private Transform canvasTransform;
     [SerializeField] private GameObject levelCompleteText, levelFailText;
 

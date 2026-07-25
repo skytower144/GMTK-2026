@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class SignalCounterDisplay : MonoBehaviour
 {
+    [SerializeField] private CrosswalkGameControl gameControl;
     [SerializeField] private TMP_Text numberText;
     [SerializeField] private GameObject walkIcon, holdIcon;
-    private GameTimer crosswalkTimer => GameManager.instance.CrosswalkTimer;
+    private GameTimer crosswalkTimer => gameControl.CrosswalkTimer;
     private bool canWalk
     {
         get

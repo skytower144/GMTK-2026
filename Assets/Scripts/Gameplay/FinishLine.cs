@@ -1,7 +1,9 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class FinishLine : MonoBehaviour
 {
+    [SerializeField] private UnityEvent onFinishlineTouch;
     private BoxCollider2D collider;
 
     void Awake()
@@ -13,8 +15,7 @@ public class FinishLine : MonoBehaviour
     {
         if (collision.CompareTag(GameManager.PLAYER_TAG))
         {
-            GameManager.instance.DetermineLevelComplete();
-            SetTrigger(false);
+            onFinishlineTouch?.Invoke();
         }
     }
 

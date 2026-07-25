@@ -1,27 +1,19 @@
 using UnityEngine.SceneManagement;
-using UnityEngine;
 using UnityEngine.InputSystem;
-using CrosswalkGame;
-using System;
-using DG.Tweening;
+using UnityEngine;
 
+public enum GameState { MENU, PLAY, LEVEL_COMPLETE, LEVEL_FAIL, PAUSED }
 public class GameManager : MonoBehaviour
 {
     public const string PLAYER_TAG = "Player";
-    public const string UICONTROl_TAG = "UI_CONTROLLER";
-
-    public enum GameState { MENU, PLAY, LEVEL_COMPLETE, LEVEL_FAIL, PAUSED }
 
     public static GameManager instance { get; private set; }
     public static GameState CurrentGameState = GameState.MENU;
+    public static int CurrentLevel { get; private set; } = 1;
     
     [field:SerializeField] public UIController UIControl { get; private set; }
     [SerializeField] private InputActionAsset inputAction;
     [SerializeField] private string GameplaySceneName;
-    [SerializeField] private float crosswalkTimelimit;
-
-    public int CurrentLevel { get; private set; } = 1;
-    public GameTimer CrosswalkTimer { get; private set; }
 
     void Awake()
     {
@@ -33,56 +25,29 @@ public class GameManager : MonoBehaviour
 
         instance = this;
         DontDestroyOnLoad(gameObject);
+        SetGameState(GameState.MENU);
     }
 
-    void Start()
+    public static void SetInputAction(bool state)
     {
-        inputAction.Enable();
-    }
-
-    void Update()
-    {
-        DetermineLevelFail();
+        if (state)
+            instance.inputAction.Enable();
+        else
+            instance.inputAction.Disable();
     }
 
     public void StartGame()
     {
         SceneManager.LoadScene(GameplaySceneName);
-
-        CurrentLevel = 1;
-        CurrentGameState = GameState.PLAY;
-
-        CrosswalkTimer = new GameTimer(crosswalkTimelimit);
-        CrosswalkTimer.Run();
     }
 
-    public void DetermineLevelComplete()
+    public static void SetGameState(GameState state)
     {
-        if (CurrentGameState != GameState.PLAY)
-            return;
-        
-        if (CrosswalkTimer.IsRunning)
-            CompleteLevel();
+        CurrentGameState = state;
     }
 
-    private void DetermineLevelFail()
+    public static void SetCurrentLevel(int level)
     {
-        if (CurrentGameState != GameState.PLAY)
-            return;
-        
-        if (!CrosswalkTimer.IsRunning)
-            FailLevel();
-    }
-
-    public void CompleteLevel()
-    {
-        CurrentGameState = GameState.LEVEL_COMPLETE;
-        UIControl.DisplayLevelResultText(isLevelComplete: true);
-    }
-
-    public void FailLevel()
-    {
-        CurrentGameState = GameState.LEVEL_FAIL;
-        UIControl.DisplayLevelResultText(isLevelComplete: false);
+        CurrentLevel = level;
     }
 }
