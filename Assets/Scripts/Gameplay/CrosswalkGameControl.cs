@@ -6,6 +6,8 @@ using UnityEngine;
 public class CrosswalkGameControl : MonoBehaviour
 {
     [SerializeField] private PlayerControl player;
+    [SerializeField] private CrosswalkGameUI uiControl;
+    [SerializeField] private SignalCounterDisplay worldCrosswalkSignal, uiCrosswalkSignal;
     [SerializeField] private FinishLine finishLineControl;
     [SerializeField] private CinemachineCamera cinemachineCam;
     [SerializeField] private CinemachineFollow cinemachineFollow;
@@ -34,6 +36,8 @@ public class CrosswalkGameControl : MonoBehaviour
     void Update()
     {
         DetermineLevelFail();
+        worldCrosswalkSignal.HandleUpdate(CrosswalkTimer.IsRunning, CrosswalkTimer.LeftTimeUntilMaxed);
+        uiCrosswalkSignal.HandleUpdate(CrosswalkTimer.IsRunning, CrosswalkTimer.LeftTimeUntilMaxed);
     }
 
     public void ProceedNextLevel()
@@ -95,12 +99,12 @@ public class CrosswalkGameControl : MonoBehaviour
     public void CompleteLevel()
     {
         GameManager.SetGameState(GameState.LEVEL_COMPLETE);
-        UIController.Control.DisplayLevelResultText(isLevelComplete: true);
+        uiControl.DisplayLevelResultText(isLevelComplete: true);
     }
 
     public void FailLevel()
     {
         GameManager.SetGameState(GameState.LEVEL_FAIL);
-        UIController.Control.DisplayLevelResultText(isLevelComplete: false);
+        uiControl.DisplayLevelResultText(isLevelComplete: false);
     }
 }

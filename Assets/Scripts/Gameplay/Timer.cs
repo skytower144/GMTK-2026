@@ -16,6 +16,7 @@ namespace CrosswalkGame
 
         private Coroutine runCoroutine = null;
         public bool IsRunning => runCoroutine != null && ElapsedTime < MaxTime;
+        public float LeftTimeUntilMaxed => MaxTime - ElapsedTime;
 
         public void Run()
         {

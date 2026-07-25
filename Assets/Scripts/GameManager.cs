@@ -11,7 +11,6 @@ public class GameManager : MonoBehaviour
     public static GameState CurrentGameState = GameState.MENU;
     public static int CurrentLevel { get; private set; } = 1;
     
-    [field:SerializeField] public UIController UIControl { get; private set; }
     [SerializeField] private InputActionAsset inputAction;
     [SerializeField] private string GameplaySceneName;
 

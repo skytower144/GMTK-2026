@@ -1,42 +1,26 @@
-using CrosswalkGame;
 using TMPro;
 using UnityEngine;
 
 public class SignalCounterDisplay : MonoBehaviour
 {
-    [SerializeField] private CrosswalkGameControl gameControl;
     [SerializeField] private TMP_Text numberText;
     [SerializeField] private GameObject walkIcon, holdIcon;
-    private GameTimer crosswalkTimer => gameControl.CrosswalkTimer;
-    private bool canWalk
+
+    public void HandleUpdate(bool isRunning, float displayNumber)
     {
-        get
-        {
-            if (crosswalkTimer == null)
-                return false;
-            
-            return crosswalkTimer.MaxTime - crosswalkTimer.ElapsedTime > 0f;
-        }
+        DisplayRemainingTime(isRunning, displayNumber);
+        DisplayIcon(isRunning);
     }
 
-    void Update()
+    private void DisplayRemainingTime(bool isRunning, float displayNumber)
     {
-        DisplayRemainingTime();
-        DisplayIcon();
+        numberText.gameObject.SetActive(isRunning);
+        numberText.text = $"{displayNumber:F0}";
     }
 
-    private void DisplayRemainingTime()
+    private void DisplayIcon(bool isRunning)
     {
-        if (crosswalkTimer == null)
-            return;
-        
-        numberText.gameObject.SetActive(canWalk);
-        numberText.text = $"{crosswalkTimer.MaxTime - crosswalkTimer.ElapsedTime:F0}";
-    }
-
-    private void DisplayIcon()
-    {
-        walkIcon.SetActive(canWalk);
-        holdIcon.SetActive(!canWalk);
+        walkIcon.SetActive(isRunning);
+        holdIcon.SetActive(!isRunning);
     }
 }
