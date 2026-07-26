@@ -7,7 +7,7 @@
             "id": "39996de2-5de4-421b-839e-51117e431890",
             "actions": [
                 {
-                    "name": "EnterGame",
+                    "name": "Confirm",
                     "type": "Button",
                     "id": "422e669d-766f-4f9b-89d4-e763fbb578df",
                     "expectedControlType": "",
@@ -24,7 +24,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "EnterGame",
+                    "action": "Confirm",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

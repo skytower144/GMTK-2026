@@ -1,46 +1,10 @@
 fileFormatVersion: 2
-guid: a37920714a7138f4cbb5ed0ad7f03988
+guid: d2251c096eb098849baeee1404a433f8
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -4782454120369003900
-    second: Game_title_0
-  - first:
-      213: 2182617179691508973
-    second: Game_title_1
-  - first:
-      213: 3032053641798423764
-    second: Game_title_2
-  - first:
-      213: -7977196572044698816
-    second: Game_title_3
-  - first:
-      213: 6911471841733315133
-    second: Game_title_4
-  - first:
-      213: -3462765828198578322
-    second: Game_title_5
-  - first:
-      213: 8479311258080004385
-    second: Game_title_6
-  - first:
-      213: -5721664943035667307
-    second: Game_title_7
-  - first:
-      213: -87157312010725225
-    second: Game_title_8
-  - first:
-      213: -7682949269517182509
-    second: Game_title_9
-  - first:
-      213: 4011777445757586436
-    second: Game_title_10
-  - first:
-      213: -702891413429859814
-    second: Game_title_11
-  - first:
-      213: -322164448605342842
-    second: Game_title_12
+      213: 5569977257535576499
+    second: Opening_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -82,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -136,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Game_title_0
+      name: Opening_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 256
-        height: 128
+        height: 156
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -151,30 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4826dc8e05f41adb0800000000000000
-      internalID: -4782454120369003900
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Game_title_1
-      rect:
-        serializedVersion: 2
-        x: 23
-        y: 3
-        width: 109
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: de46d2cc2c63a4e10800000000000000
-      internalID: 2182617179691508973
+      spriteID: 3b999620ec88c4d40800000000000000
+      internalID: 5569977257535576499
       vertices: []
       indices: 
       edges: []
@@ -193,20 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Game_title_0: -4782454120369003900
-      Game_title_1: 2182617179691508973
-      Game_title_10: 4011777445757586436
-      Game_title_11: -702891413429859814
-      Game_title_12: -322164448605342842
-      Game_title_13: 1484458762
-      Game_title_2: 3032053641798423764
-      Game_title_3: -7977196572044698816
-      Game_title_4: 6911471841733315133
-      Game_title_5: -3462765828198578322
-      Game_title_6: 8479311258080004385
-      Game_title_7: -5721664943035667307
-      Game_title_8: -87157312010725225
-      Game_title_9: -7682949269517182509
+      Opening_0: 5569977257535576499
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -17,6 +17,7 @@ public class CrosswalkGameControl : MonoBehaviour
     [SerializeField] private CinemachineCamera cinemachineCam;
     [SerializeField] private CinemachineFollow cinemachineFollow;
     [SerializeField] private Transform playerStartPosition;
+    [SerializeField] private GameObject endingCutscene;
 
     [Space(10)]
     [SerializeField] private float crosswalkTimelimit;
@@ -67,6 +68,12 @@ public class CrosswalkGameControl : MonoBehaviour
         ProceedLevel(CurrentLevel);
     }
 
+    private void ShowEnding()
+    {
+        var ending = Instantiate(endingCutscene, uiControl.transform);
+        ending.transform.localPosition = Vector3.zero;
+    }
+
     public void ProceedLevel(int level)
     {
         if (proceedLevelCoroutine != null)
@@ -82,6 +89,13 @@ public class CrosswalkGameControl : MonoBehaviour
             uiControl.DestroySpawnedResultText();
 
             CrosswalkTimer.Rewind();
+
+            if (CurrentLevel >= levelPrefabList.Count)
+            {
+                GameManager.SetGameState(GameState.FINISHED);
+                ShowEnding();
+                yield break;
+            }
 
             SetCurrentLevel(level);
             LoadLevel(CurrentLevel);

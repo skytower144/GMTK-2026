@@ -5799,6 +5799,7 @@ MonoBehaviour:
   cinemachineCam: {fileID: 1019850183}
   cinemachineFollow: {fileID: 1019850184}
   playerStartPosition: {fileID: 1459965584}
+  endingCutscene: {fileID: 7585006677603870360, guid: 0262ccf8715bf344dbf8172460c6d8c8, type: 3}
   crosswalkTimelimit: 13
   showFinishlineDuration: 2.5
   showFinishlineDamping: {x: 2.5, y: 2.5}
