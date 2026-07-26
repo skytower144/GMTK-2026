@@ -1,35 +1,57 @@
 using System.Collections;
+using System.Collections.Generic;
 using CrosswalkGame;
 using Unity.Cinemachine;
 using UnityEngine;
 
 public class CrosswalkGameControl : MonoBehaviour
 {
+    private const float LEVEL_RESULT_WAIT_DURATION = 3f;
+    public static int CurrentLevel { get; private set; } = 0;
+
     [SerializeField] private PlayerControl player;
     [SerializeField] private CrosswalkGameUI uiControl;
     [SerializeField] private SignalCounterDisplay worldCrosswalkSignal, uiCrosswalkSignal;
     [SerializeField] private FinishLine finishLineControl;
     [SerializeField] private CinemachineCamera cinemachineCam;
     [SerializeField] private CinemachineFollow cinemachineFollow;
-    [SerializeField] private Vector2 showFinishlineDamping;
-    [SerializeField] private float showFinishlineDuration;
+    [SerializeField] private Transform playerStartPosition;
+
+    [Space(10)]
     [SerializeField] private float crosswalkTimelimit;
 
+    [Space(10)]
+    [SerializeField] private float showFinishlineDuration;
+    [SerializeField] private Vector2 showFinishlineDamping;
+    [SerializeField] private List<GameObject> levelPrefabList;
+
     public GameTimer CrosswalkTimer { get; private set; }
-    private Coroutine proceedLevelCoroutine = null;
     private Vector2 initialFollowDamping;
+    private GameObject currentLevelInstance = null;
+
+    private Coroutine levelResultCoroutine = null;
+    private Coroutine proceedLevelCoroutine = null;
 
     void Awake()
     {
-        GameManager.SetCurrentLevel(1);
+        GameManager.SetInputAction(false);
+        SetCurrentLevel(0);
 
         CrosswalkTimer = new GameTimer(crosswalkTimelimit);
         initialFollowDamping = cinemachineFollow.TrackerSettings.PositionDamping;
+
+        PlayerControl.OnRetryButtonDown -= RetryLevel;
+        PlayerControl.OnRetryButtonDown += RetryLevel;
+    }
+
+    void OnDestroy()
+    {
+        PlayerControl.OnRetryButtonDown -= RetryLevel;
     }
 
     void Start()
     {
-        ProceedNextLevel();
+        ProceedLevel(1);
     }
 
     void Update()
@@ -39,7 +61,12 @@ public class CrosswalkGameControl : MonoBehaviour
         uiCrosswalkSignal.HandleUpdate(CrosswalkTimer.IsRunning, CrosswalkTimer.LeftTimeUntilMaxed);
     }
 
-    public void ProceedNextLevel()
+    private void RetryLevel()
+    {
+        ProceedLevel(CurrentLevel);
+    }
+
+    public void ProceedLevel(int level)
     {
         if (proceedLevelCoroutine != null)
             StopCoroutine(proceedLevelCoroutine);
@@ -48,9 +75,22 @@ public class CrosswalkGameControl : MonoBehaviour
         IEnumerator Routine()
         {
             GameManager.SetInputAction(false);
-            yield return ShowFinishline();
+
+            uiControl.FadeScreen();
+            uiControl.DestroySpawnedResultText();
 
             CrosswalkTimer.Rewind();
+
+            SetCurrentLevel(level);
+            LoadLevel(CurrentLevel);
+
+            player.SetPosition(playerStartPosition.position);
+            player.SetCurrentMoveVector(Vector2.up);
+            finishLineControl.SetTrigger(true);
+
+            yield return new WaitForSeconds(uiControl.FadeScreenTween.delay);
+            yield return ShowFinishline();
+
             CrosswalkTimer.Run();
 
             GameManager.SetGameState(GameState.PLAY);
@@ -97,13 +137,48 @@ public class CrosswalkGameControl : MonoBehaviour
 
     public void CompleteLevel()
     {
-        GameManager.SetGameState(GameState.LEVEL_COMPLETE);
-        uiControl.DisplayLevelResultText(isLevelComplete: true);
+        if (levelResultCoroutine != null)
+            StopCoroutine(levelResultCoroutine);
+
+        levelResultCoroutine = StartCoroutine(Routine());
+        IEnumerator Routine()
+        {
+            GameManager.SetGameState(GameState.LEVEL_COMPLETE);
+            uiControl.DisplayLevelResultText(isLevelComplete: true);
+
+            yield return new WaitForSeconds(LEVEL_RESULT_WAIT_DURATION);
+            ProceedLevel(CurrentLevel + 1);
+
+            levelResultCoroutine = null;
+        }
     }
 
     public void FailLevel()
     {
         GameManager.SetGameState(GameState.LEVEL_FAIL);
         uiControl.DisplayLevelResultText(isLevelComplete: false);
+    }
+
+    public static void SetCurrentLevel(int level)
+    {
+        CurrentLevel = level;
+    }
+
+    public void LoadLevel(int level)
+    {
+        if (currentLevelInstance != null)
+        {
+            Destroy(currentLevelInstance);
+            currentLevelInstance = null;
+        }
+
+        if (level - 1 >= levelPrefabList.Count)
+        {
+            Debug.LogWarning($"Failed to load Level: {level - 1}");
+            return;
+        }
+
+        if (levelPrefabList[level - 1])
+            currentLevelInstance = Instantiate(levelPrefabList[level - 1]);
     }
 }

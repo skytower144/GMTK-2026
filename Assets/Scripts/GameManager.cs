@@ -9,7 +9,6 @@ public class GameManager : MonoBehaviour
 
     public static GameManager instance { get; private set; }
     public static GameState CurrentGameState = GameState.MENU;
-    public static int CurrentLevel { get; private set; } = 1;
     
     [SerializeField] private InputActionAsset inputAction;
     [SerializeField] private string GameplaySceneName;
@@ -45,8 +44,4 @@ public class GameManager : MonoBehaviour
         CurrentGameState = state;
     }
 
-    public static void SetCurrentLevel(int level)
-    {
-        CurrentLevel = level;
-    }
 }

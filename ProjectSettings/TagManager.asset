@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - UI_CONTROLLER
+  - PLAYER_ATTACK
   layers:
   - Default
   - TransparentFX
