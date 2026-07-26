@@ -3,6 +3,34 @@
     "name": "PlayerInput",
     "maps": [
         {
+            "name": "MainMenu",
+            "id": "39996de2-5de4-421b-839e-51117e431890",
+            "actions": [
+                {
+                    "name": "EnterGame",
+                    "type": "Button",
+                    "id": "422e669d-766f-4f9b-89d4-e763fbb578df",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "bdcdb07f-5c72-4428-97b4-1ef57d20344e",
+                    "path": "<Keyboard>/anyKey",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "EnterGame",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
             "name": "Player",
             "id": "8090aa4b-8e78-4179-bf78-e955db2ec8a5",
             "actions": [

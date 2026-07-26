@@ -6,6 +6,9 @@ public enum GameState { MENU, PLAY, LEVEL_COMPLETE, LEVEL_FAIL, LEVEL_PREPARE, P
 public class GameManager : MonoBehaviour
 {
     public const string PLAYER_TAG = "Player";
+    public const string UI_CONTROLLER = "UI_CONTROLLER";
+    public const string PLAYER_ATTACK_COLLIDER = "PLAYER_ATTACK";
+    public const string PLAYER_INTERACT_COLLIDER = "PLAYER_INTERACT";
 
     public static GameManager instance { get; private set; }
     public static GameState CurrentGameState = GameState.MENU;

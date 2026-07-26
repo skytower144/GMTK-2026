@@ -8,7 +8,7 @@ public class PlayerControl : MonoBehaviour
     private const string ANIMPARAM_MOVE_X = "moveX";
     private const string ANIMPARAM_MOVE_Y = "moveY";
     private const string ANIMPARAM_ISMOVING = "isMoving";
-    private const float ATTACK_LINGER_DURATION = 0.4f;
+    private const float COLLIDER_LINGER_DURATION = 0.4f;
 
     public enum PlayerState { IDLE, MOVE, ATTACK, INTERACT, }
     public static event Action OnRetryButtonDown = null;
@@ -27,7 +27,7 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] private float attackDuration;
     [SerializeField] private float interactDuration;
     [SerializeField] private float moveSpeed;
-    [SerializeField] private GameObject attackCollider;
+    [SerializeField] private GameObject attackCollider, interactCollider;
 
     private Animator anim;
     private Rigidbody2D rb;
@@ -112,7 +112,23 @@ public class PlayerControl : MonoBehaviour
         {
             CurrentState = state;
 
-            anim.Play(attackAnimName, -1, 0f);
+            string animName = string.Empty;
+
+            switch (state)
+            {
+                case PlayerState.ATTACK:
+                    animName = attackActionName;
+                    break;
+                
+                case PlayerState.INTERACT:
+                    animName = interactAnimName;
+                    break;
+                
+                default:
+                    break;
+
+            }
+            anim.Play(animName, -1, 0f);
             yield return new WaitForSeconds(duration);
 
             CurrentState = PlayerState.IDLE;
@@ -145,14 +161,35 @@ public class PlayerControl : MonoBehaviour
     }
 
     // Animation Key Event
-    private void SpawnAttackCollider(string direction)
+    private void SpawnCollider(string direction)
     {
-        var spawnedCollider = Instantiate(attackCollider, transform);
+        direction = direction.ToUpper();
+        string[] info = direction.Split(new[] { '_' }, StringSplitOptions.RemoveEmptyEntries);
+
+        GameObject targetPrefab;
+
+        if (info.Length != 2)
+        {
+            Debug.LogWarning($"Invalid parameter for animation event: SpawnCollider");
+            return;
+        }
+
+        switch (info[0])
+        {
+            case "ATTACK":
+                targetPrefab = attackCollider;
+                break;
+            
+            default:
+            case "INTERACT":
+                targetPrefab = interactCollider;
+                break;
+        }
+
+        var spawnedCollider = Instantiate(targetPrefab, transform);
         spawnedCollider.transform.localPosition = Vector3.zero;
 
-        direction = direction.ToUpper();
-
-        switch (direction)
+        switch (info[1])
         {
             case "UP":
                 spawnedCollider.transform.rotation = Quaternion.Euler(0, 0, 180f);
@@ -167,7 +204,6 @@ public class PlayerControl : MonoBehaviour
                 break;
         }
 
-        Destroy(spawnedCollider, ATTACK_LINGER_DURATION);
+        Destroy(spawnedCollider, COLLIDER_LINGER_DURATION);
     }
-
 }

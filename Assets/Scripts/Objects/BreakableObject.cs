@@ -16,9 +16,8 @@ public class BreakableObject : MonoBehaviour
         if (isDestroyed)
             return;
         
-        // compare tag
-
-        TakeDamage();
+        if (collision.CompareTag(GameManager.PLAYER_ATTACK_COLLIDER))
+            TakeDamage();
     }
 
     private void TakeDamage()
