@@ -66,7 +66,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: LEVEL FAILED
+  m_text: TOO LATE!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 62930a5f11c20e545bc5e78257be653c, type: 2}
   m_sharedMaterial: {fileID: -462791708160045069, guid: 62930a5f11c20e545bc5e78257be653c, type: 2}

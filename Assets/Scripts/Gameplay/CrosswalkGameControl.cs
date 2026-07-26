@@ -21,7 +21,6 @@ public class CrosswalkGameControl : MonoBehaviour
 
     void Awake()
     {
-        GameManager.SetInputAction(false);
         GameManager.SetCurrentLevel(1);
 
         CrosswalkTimer = new GameTimer(crosswalkTimelimit);
