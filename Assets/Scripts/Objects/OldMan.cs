@@ -6,6 +6,8 @@ public class OldMan : MonoBehaviour
     [SerializeField] private Collider2D oldManCollider;
     [SerializeField] private string oldManDeathAnimName;
     [SerializeField] private GameObject displayTextObj;
+    [SerializeField] private AudioClip deathSfx;
+
     public bool DeathFlag { get; private set; }
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -29,5 +31,7 @@ public class OldMan : MonoBehaviour
         oldManAnim.Play(oldManDeathAnimName, -1, 0f);
         oldManCollider.enabled = false;
         displayTextObj.gameObject.SetActive(false);
+
+        SoundManager.PlaySFX(deathSfx);
     }
 }

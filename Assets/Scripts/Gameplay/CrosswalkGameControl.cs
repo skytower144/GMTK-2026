@@ -18,6 +18,7 @@ public class CrosswalkGameControl : MonoBehaviour
     [SerializeField] private CinemachineFollow cinemachineFollow;
     [SerializeField] private Transform playerStartPosition;
     [SerializeField] private GameObject endingCutscene;
+    [SerializeField] private AudioClip backgroundMusic, endingMusic;
 
     [Space(10)]
     [SerializeField] private float crosswalkTimelimit;
@@ -54,6 +55,7 @@ public class CrosswalkGameControl : MonoBehaviour
     void Start()
     {
         ProceedLevel(1);
+        SoundManager.PlayMusic(backgroundMusic);
     }
 
     void Update()
@@ -72,6 +74,8 @@ public class CrosswalkGameControl : MonoBehaviour
     {
         var ending = Instantiate(endingCutscene, uiControl.transform);
         ending.transform.localPosition = Vector3.zero;
+
+        SoundManager.PlayMusic(endingMusic);
     }
 
     public void ProceedLevel(int level)

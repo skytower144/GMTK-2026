@@ -8,24 +8,28 @@ public class TitleScreen : MonoBehaviour
     [SerializeField] private string mainMenuActionMapName, playerActionMapName;
     [SerializeField] private string confirmActionName;
     [SerializeField] private List<GameObject> displayList;
+    [SerializeField] private AudioClip confirmSfx;
     private int displayIndex = 0;
+
+    // temporary, prevent double input bug
+    private float elapsedTime = 0f;
+    private float inputCooldown = 0.1f;
+    private bool isCooldown => elapsedTime < inputCooldown; 
 
     void Awake()
     {
         InputSystem.actions.FindActionMap(playerActionMapName).Disable();
         InputSystem.actions.FindActionMap(mainMenuActionMapName).Enable();
-    }
-
-    void Start()
-    {
-        for (int i = 0; i < displayList.Count; i++)
-            displayList[i].SetActive(false);
-
-        displayList[0].SetActive(true);
+        elapsedTime = inputCooldown;
     }
 
     void Update()
     {
+        elapsedTime += Time.deltaTime;
+
+        if (isCooldown)
+            return;
+        
         if (GameManager.CurrentGameState == GameState.MENU && InputSystem.actions[confirmActionName].WasPressedThisFrame())
             Confirm();
     }
@@ -40,6 +44,9 @@ public class TitleScreen : MonoBehaviour
             ++displayIndex;
             displayList[displayIndex].SetActive(true);
         }
+
+        SoundManager.PlaySFX(confirmSfx);
+        elapsedTime = 0f;
     }
 
     private void StartGame()

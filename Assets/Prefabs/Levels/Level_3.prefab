@@ -626,6 +626,7 @@ MonoBehaviour:
   oldManCollider: {fileID: 5970467840131308258}
   oldManDeathAnimName: OldMan_Death
   displayTextObj: {fileID: 2703938617068621041}
+  deathSfx: {fileID: 8300000, guid: f50efec93c2e76d4dac3c990100a28cd, type: 3}
 --- !u!1 &4009691041810237826
 GameObject:
   m_ObjectHideFlags: 0
