@@ -5,6 +5,7 @@ public class Chest : MonoBehaviour
     [SerializeField] private GameObject itemIcon;
     [SerializeField] private SpriteRenderer itemIconRenderer;
     [SerializeField] private Sprite ringSprite, coalSprite;
+    [SerializeField] private AudioClip openSfx;
     public bool HasRing { get; private set; }
     public bool IsOpened { get; private set; }
 
@@ -32,5 +33,6 @@ public class Chest : MonoBehaviour
     {
         IsOpened = true;
         itemIcon.SetActive(true);
+        SoundManager.PlaySFX(openSfx);
     }
 }

@@ -467,3 +467,4 @@ MonoBehaviour:
   itemIconRenderer: {fileID: 5773196137625253537}
   ringSprite: {fileID: -6336339433189496310, guid: 8f92d9120b147804f839c785f73dbe9f, type: 3}
   coalSprite: {fileID: -5084690398489548922, guid: 8f92d9120b147804f839c785f73dbe9f, type: 3}
+  openSfx: {fileID: 8300000, guid: 4a5bf35c0e6f7b44eaa294a4d82f26b1, type: 3}

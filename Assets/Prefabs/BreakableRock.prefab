@@ -265,6 +265,8 @@ MonoBehaviour:
   durability: 2
   shakeTween: {fileID: 7776018792237356671}
   explodeEffect: {fileID: 6925998518872344231}
+  punchedSfx: {fileID: 8300000, guid: 647bc888a16289941afb4d8d8d003246, type: 3}
+  destroySfx: {fileID: 8300000, guid: 4876f99eec8b90443b839f7164f68ebb, type: 3}
 --- !u!114 &6925998518872344231
 MonoBehaviour:
   m_ObjectHideFlags: 0

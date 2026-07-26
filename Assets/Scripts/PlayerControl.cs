@@ -31,6 +31,8 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] private float interactDuration;
     [SerializeField] private float moveSpeed;
     [SerializeField] private GameObject attackCollider, interactCollider;
+    [SerializeField] private AudioSource footstepSource;
+    [SerializeField] private AudioClip hurtSfx;
 
     private Animator anim;
     private Rigidbody2D rb;
@@ -84,6 +86,7 @@ public class PlayerControl : MonoBehaviour
 
     private void ProcessMove()
     {
+        PlayerState prevState = CurrentState;
         anim.SetBool(ANIMPARAM_ISMOVING, IsMoving);
 
         if (IsMoving)
@@ -100,6 +103,14 @@ public class PlayerControl : MonoBehaviour
         {
             rb.linearVelocity = Vector3.zero;
             CurrentState = PlayerState.IDLE;
+        }
+
+        if (prevState != CurrentState)
+        {
+            if (IsMoving)
+                footstepSource.Play();
+            else
+                footstepSource.Stop();
         }
     }
 
@@ -224,6 +235,8 @@ public class PlayerControl : MonoBehaviour
         IEnumerator Routine()
         {
             CurrentState = PlayerState.HURT;
+            SoundManager.PlaySFX(hurtSfx);
+            
             Vector2 approximateDestination = (Vector2)transform.position + -currentMoveVector;
 
             for (float t = 0f; t < HURT_STUN_DURATION; t += Time.fixedDeltaTime)
@@ -250,6 +263,7 @@ public class PlayerControl : MonoBehaviour
         IEnumerator Routine()
         {
             CurrentState = PlayerState.HURT;
+            SoundManager.PlaySFX(hurtSfx);
 
             anim.SetBool(ANIMPARAM_ISMOVING, false);
             SetPosition(trapPosition);

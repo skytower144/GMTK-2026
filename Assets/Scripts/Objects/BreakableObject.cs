@@ -8,6 +8,7 @@ public class BreakableObject : MonoBehaviour
     [SerializeField] private int durability;
     [SerializeField] private DOTweenAnimation shakeTween;
     [SerializeField] private FragmentExplodeEffect explodeEffect;
+    [SerializeField] private AudioClip punchedSfx, destroySfx;
 
     private bool isDestroyed;
 
@@ -23,8 +24,11 @@ public class BreakableObject : MonoBehaviour
     private void TakeDamage()
     {
         --durability;
+
         shakeTween.DORewind();
         shakeTween.DOPlay();
+
+        SoundManager.PlaySFX(punchedSfx);
 
         if (durability <= 0)
         {
@@ -39,5 +43,7 @@ public class BreakableObject : MonoBehaviour
         isDestroyed = true;
         explodeEffect.Explode();
         Destroy(gameObject);
+
+        SoundManager.PlaySFX(destroySfx);
     }
 }

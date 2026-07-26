@@ -627,6 +627,7 @@ MonoBehaviour:
   oldManDeathAnimName: OldMan_Death
   displayTextObj: {fileID: 2703938617068621041}
   deathSfx: {fileID: 8300000, guid: f50efec93c2e76d4dac3c990100a28cd, type: 3}
+  punchedSfx: {fileID: 8300000, guid: 647bc888a16289941afb4d8d8d003246, type: 3}
 --- !u!1 &4009691041810237826
 GameObject:
   m_ObjectHideFlags: 0
