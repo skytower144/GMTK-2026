@@ -74,6 +74,7 @@ public class CrosswalkGameControl : MonoBehaviour
         proceedLevelCoroutine = StartCoroutine(Routine());
         IEnumerator Routine()
         {
+            GameManager.SetGameState(GameState.LEVEL_PREPARE);
             GameManager.SetInputAction(false);
 
             uiControl.FadeScreen();

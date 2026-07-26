@@ -25,9 +25,27 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Interact",
+                    "type": "Button",
+                    "id": "15d2d3aa-bf58-4ad7-b957-6c1b8b23e677",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Retry",
                     "type": "Button",
                     "id": "93b91313-3403-45e3-acac-f94317830d28",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "CommandLine",
+                    "type": "Button",
+                    "id": "b54ad008-5970-433a-b66c-440ab30a3d51",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -109,6 +127,56 @@
                     "processors": "",
                     "groups": "",
                     "action": "Retry",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "98bf5747-8a21-4060-8cbd-73ebfa3babbd",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "928e6173-744d-4ffb-9bbb-17319f088224",
+                    "path": "<Keyboard>/slash",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CommandLine",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "DebugMode",
+            "id": "3691040b-085c-4822-83ed-625a647293d1",
+            "actions": [
+                {
+                    "name": "Return",
+                    "type": "Button",
+                    "id": "fa908356-9732-4fe1-9772-89de623849f0",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "ef239e41-cf63-4e2f-b417-8abeddfdd305",
+                    "path": "<Keyboard>/slash",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Return",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

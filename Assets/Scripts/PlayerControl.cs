@@ -21,9 +21,11 @@ public class PlayerControl : MonoBehaviour
     [Space(5), Header("Animations")]
     [SerializeField] private string idleAnimName;
     [SerializeField] private string attackAnimName;
+    [SerializeField] private string interactAnimName;
 
     [Space(10)]
     [SerializeField] private float attackDuration;
+    [SerializeField] private float interactDuration;
     [SerializeField] private float moveSpeed;
     [SerializeField] private GameObject attackCollider;
 
@@ -31,10 +33,10 @@ public class PlayerControl : MonoBehaviour
     private Rigidbody2D rb;
     private SpriteRenderer sr;
     private Vector2 currentMoveVector;
-    private Coroutine attackCoroutine;
+    private Coroutine animateCoroutine;
 
     public PlayerState CurrentState { get; private set; }
-    public bool IsMoving => IsActionPressed(moveActionName);
+    public bool IsMoving => InputSystem.actions[moveActionName].IsPressed();
 
     void Awake()
     {
@@ -46,10 +48,6 @@ public class PlayerControl : MonoBehaviour
     void OnEnable()
     {
         CurrentState = PlayerState.IDLE;
-
-#if UNITY_EDITOR
-        GameManager.SetInputAction(true);
-#endif
     }
 
     void Update()
@@ -58,7 +56,11 @@ public class PlayerControl : MonoBehaviour
 
         if (IsActionPressed(attackActionName))
         {
-            Attack();
+            Animate(PlayerState.ATTACK, attackDuration);
+        }
+        else if (IsActionPressed(interactAnimName))
+        {
+            Animate(PlayerState.INTERACT, interactDuration);
         }
         else if (GameManager.CurrentGameState == GameState.LEVEL_FAIL && IsActionPressed(retryActionName))
         {
@@ -100,22 +102,22 @@ public class PlayerControl : MonoBehaviour
         anim.SetFloat(ANIMPARAM_MOVE_Y, snappedVector.y);
     }
 
-    private void Attack()
+    private void Animate(PlayerState state, float duration)
     {
-        if (attackCoroutine != null)
+        if (animateCoroutine != null)
             return;
         
-        attackCoroutine = StartCoroutine(Routine());
+        animateCoroutine = StartCoroutine(Routine());
         IEnumerator Routine()
         {
-            CurrentState = PlayerState.ATTACK;
+            CurrentState = state;
 
             anim.Play(attackAnimName, -1, 0f);
-            yield return new WaitForSeconds(attackDuration);
+            yield return new WaitForSeconds(duration);
 
             CurrentState = PlayerState.IDLE;
             anim.Play(idleAnimName, -1, 0f);
-            attackCoroutine = null;
+            animateCoroutine = null;
         }
     }
 
@@ -129,7 +131,7 @@ public class PlayerControl : MonoBehaviour
 
     private bool IsActionPressed(string actionName)
     {
-        return InputSystem.actions[actionName].IsPressed();
+        return InputSystem.actions[actionName].WasPressedThisFrame();
     }
 
     public void SetPosition(Vector2 position)

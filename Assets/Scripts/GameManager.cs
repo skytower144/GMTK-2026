@@ -2,7 +2,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 using UnityEngine;
 
-public enum GameState { MENU, PLAY, LEVEL_COMPLETE, LEVEL_FAIL, PAUSED }
+public enum GameState { MENU, PLAY, LEVEL_COMPLETE, LEVEL_FAIL, LEVEL_PREPARE, PAUSED }
 public class GameManager : MonoBehaviour
 {
     public const string PLAYER_TAG = "Player";
