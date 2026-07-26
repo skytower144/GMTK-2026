@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,8 +10,10 @@ public class PlayerControl : MonoBehaviour
     private const string ANIMPARAM_MOVE_Y = "moveY";
     private const string ANIMPARAM_ISMOVING = "isMoving";
     private const float COLLIDER_LINGER_DURATION = 0.4f;
+    private const float HURT_STUN_DURATION = 0.28f;
+    private const float HURT_KNOCKBACK_SPEED = 10f;
 
-    public enum PlayerState { IDLE, MOVE, ATTACK, INTERACT, }
+    public enum PlayerState { IDLE, MOVE, ATTACK, INTERACT, HURT, }
     public static event Action OnRetryButtonDown = null;
 
     [Space(5), Header("Actions")]
@@ -33,7 +36,7 @@ public class PlayerControl : MonoBehaviour
     private Rigidbody2D rb;
     private SpriteRenderer sr;
     private Vector2 currentMoveVector;
-    private Coroutine animateCoroutine;
+    private Coroutine animateCoroutine, stunCoroutine;
 
     public PlayerState CurrentState { get; private set; }
     public bool IsMoving => InputSystem.actions[moveActionName].IsPressed();
@@ -54,6 +57,15 @@ public class PlayerControl : MonoBehaviour
     {
         AnimateFacingDirection();
 
+        if (GameManager.CurrentGameState == GameState.LEVEL_FAIL && IsActionPressed(retryActionName))
+        {
+            OnRetryButtonDown?.Invoke();
+            return;
+        }
+
+        if (CurrentState == PlayerState.HURT)
+            return;
+        
         if (IsActionPressed(attackActionName))
         {
             Animate(PlayerState.ATTACK, attackDuration);
@@ -61,10 +73,6 @@ public class PlayerControl : MonoBehaviour
         else if (IsActionPressed(interactAnimName))
         {
             Animate(PlayerState.INTERACT, interactDuration);
-        }
-        else if (GameManager.CurrentGameState == GameState.LEVEL_FAIL && IsActionPressed(retryActionName))
-        {
-            OnRetryButtonDown?.Invoke();
         }
     }
 
@@ -205,5 +213,73 @@ public class PlayerControl : MonoBehaviour
         }
 
         Destroy(spawnedCollider, COLLIDER_LINGER_DURATION);
+    }
+
+    public void Knockback()
+    {
+        if (stunCoroutine != null)
+            StopCoroutine(stunCoroutine);
+        
+        stunCoroutine = StartCoroutine(Routine());
+        IEnumerator Routine()
+        {
+            CurrentState = PlayerState.HURT;
+            Vector2 approximateDestination = (Vector2)transform.position + -currentMoveVector;
+
+            for (float t = 0f; t < HURT_STUN_DURATION; t += Time.fixedDeltaTime)
+            {
+                Vector2 nextPos = Vector2.MoveTowards(rb.position, approximateDestination, HURT_KNOCKBACK_SPEED * Time.fixedDeltaTime);
+                rb.MovePosition(nextPos);
+
+                yield return new WaitForFixedUpdate();
+            }
+
+            CurrentState = PlayerState.IDLE;
+            stunCoroutine = null;
+        }
+    }
+
+    public void Trapped(Vector3 trapPosition, float trappedDuration)
+    {
+        if (stunCoroutine != null)
+            StopCoroutine(stunCoroutine);
+        
+        Vector2 originalVector = currentMoveVector;
+
+        stunCoroutine = StartCoroutine(Routine());
+        IEnumerator Routine()
+        {
+            CurrentState = PlayerState.HURT;
+
+            anim.SetBool(ANIMPARAM_ISMOVING, false);
+            SetPosition(trapPosition);
+
+            float magnitude = 0.1f;
+
+            for (float t = 0f; t < trappedDuration; t += Time.deltaTime)
+            {
+                Vector2 randomOffset = UnityEngine.Random.insideUnitCircle * magnitude;
+                SetPosition(new Vector3(
+                    trapPosition.x + randomOffset.x,
+                    trapPosition.y + randomOffset.y,
+                    trapPosition.z
+                ));
+
+                yield return null;
+            }
+
+            Vector2 approximateDestination = (Vector2)transform.position + -originalVector;
+
+            for (float t = 0f; t < HURT_STUN_DURATION; t += Time.fixedDeltaTime)
+            {
+                Vector2 nextPos = Vector2.MoveTowards(rb.position, approximateDestination, HURT_KNOCKBACK_SPEED * Time.fixedDeltaTime);
+                rb.MovePosition(nextPos);
+
+                yield return new WaitForFixedUpdate();
+            }
+
+            CurrentState = PlayerState.IDLE;
+            stunCoroutine = null;
+        }
     }
 }

@@ -8,6 +8,7 @@ public class CrosswalkGameControl : MonoBehaviour
 {
     private const float LEVEL_RESULT_WAIT_DURATION = 3f;
     public static int CurrentLevel { get; private set; } = 0;
+    public PlayerControl PlayerControl => player;
 
     [SerializeField] private PlayerControl player;
     [SerializeField] private CrosswalkGameUI uiControl;

@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     public const string UI_CONTROLLER = "UI_CONTROLLER";
     public const string PLAYER_ATTACK_COLLIDER = "PLAYER_ATTACK";
     public const string PLAYER_INTERACT_COLLIDER = "PLAYER_INTERACT";
+    public const string GAME_CONTROL = "CROSSWALKGAME";
 
     public static GameManager instance { get; private set; }
     public static GameState CurrentGameState = GameState.MENU;
