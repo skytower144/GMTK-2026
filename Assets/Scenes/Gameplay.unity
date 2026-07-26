@@ -1733,6 +1733,7 @@ GameObject:
   - component: {fileID: 360299617}
   - component: {fileID: 360299616}
   - component: {fileID: 360299615}
+  - component: {fileID: 360299620}
   m_Layer: 0
   m_Name: Wall
   m_TagString: Untagged
@@ -4199,6 +4200,20 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!114 &360299620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 360299613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd3b185423c4c63438a6a4ecdfd09f01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WallCollisionSound
+  sfx: {fileID: 8300000, guid: 7b86aa7796e59fd4bb42552e7598ba1c, type: 3}
+  cooldownDuration: 0.3
 --- !u!1 &464565454
 GameObject:
   m_ObjectHideFlags: 0
@@ -5802,6 +5817,8 @@ MonoBehaviour:
   endingCutscene: {fileID: 7585006677603870360, guid: 0262ccf8715bf344dbf8172460c6d8c8, type: 3}
   backgroundMusic: {fileID: 8300000, guid: f8987cd4674948d499be4aa474e05e08, type: 3}
   endingMusic: {fileID: 8300000, guid: 3b9767777fdc7034cba7d36efafd3367, type: 3}
+  completeSfx: {fileID: 8300000, guid: a5bb02d1bbe594c4eb7e6a151fbf4592, type: 3}
+  failedSfx: {fileID: 8300000, guid: 7e1977d3cafd200479ead58241c78dd2, type: 3}
   crosswalkTimelimit: 13
   showFinishlineDuration: 2.5
   showFinishlineDamping: {x: 2.5, y: 2.5}

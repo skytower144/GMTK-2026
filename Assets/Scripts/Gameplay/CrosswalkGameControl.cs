@@ -18,7 +18,7 @@ public class CrosswalkGameControl : MonoBehaviour
     [SerializeField] private CinemachineFollow cinemachineFollow;
     [SerializeField] private Transform playerStartPosition;
     [SerializeField] private GameObject endingCutscene;
-    [SerializeField] private AudioClip backgroundMusic, endingMusic;
+    [SerializeField] private AudioClip backgroundMusic, endingMusic, completeSfx, failedSfx;
 
     [Space(10)]
     [SerializeField] private float crosswalkTimelimit;
@@ -94,7 +94,7 @@ public class CrosswalkGameControl : MonoBehaviour
 
             CrosswalkTimer.Rewind();
 
-            if (CurrentLevel >= levelPrefabList.Count)
+            if (level > levelPrefabList.Count)
             {
                 GameManager.SetGameState(GameState.FINISHED);
                 ShowEnding();
@@ -165,6 +165,7 @@ public class CrosswalkGameControl : MonoBehaviour
         {
             GameManager.SetGameState(GameState.LEVEL_COMPLETE);
             uiControl.DisplayLevelResultText(isLevelComplete: true);
+            SoundManager.PlaySFX(completeSfx);
 
             yield return new WaitForSeconds(LEVEL_RESULT_WAIT_DURATION);
             ProceedLevel(CurrentLevel + 1);
@@ -177,6 +178,7 @@ public class CrosswalkGameControl : MonoBehaviour
     {
         GameManager.SetGameState(GameState.LEVEL_FAIL);
         uiControl.DisplayLevelResultText(isLevelComplete: false);
+        SoundManager.PlaySFX(failedSfx);
     }
 
     public static void SetCurrentLevel(int level)
